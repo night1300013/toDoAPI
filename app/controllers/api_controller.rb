@@ -1,5 +1,11 @@
 class ApiController < ApplicationController
   #skip_before_action :verify_authenticity_token#, raise: false
+  #include DeviseTokenAuth::Concerns::SetUserByToken
+  #before_action :authenticate_user!
+  # def current_user
+  #   @current_user #||= User.where(email: params[:email]).first
+  # end
+
   private
   def authenticated?
     authenticate_or_request_with_http_basic do |username, password|
