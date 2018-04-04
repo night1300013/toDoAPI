@@ -1,5 +1,4 @@
 class Api::ListsController < ApiController
-  before_action :authenticated?
 
   def create
     #current user should be the one that creates the list not the url's user

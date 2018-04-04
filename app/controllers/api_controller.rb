@@ -1,10 +1,23 @@
 class ApiController < ApplicationController
   #skip_before_action :verify_authenticity_token#, raise: false
-  #include DeviseTokenAuth::Concerns::SetUserByToken
-  #before_action :authenticate_user!
-  # def current_user
-  #   @current_user #||= User.where(email: params[:email]).first
-  # end
+  include ActionController::Helpers
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  #before_action :authenticated?
+  before_action :require_login!
+  helper_method :user_signed_in?, :current_user
+
+  def require_login!
+    return true if authenticate_token
+    render json: { errors: [ { detail: "Access denied" } ] }, status: 401
+  end
+
+  def user_signed_in?
+    current_user.present?
+  end
+
+  def current_user
+    @current_user ||= authenticate_token
+  end
 
   private
   def authenticated?
@@ -17,6 +30,12 @@ class ApiController < ApplicationController
         render json: "username or password not correct!\n", status: 401
       end
       #User.where( email: email, password_digest: password).present? }
+    end
+  end
+
+  def authenticate_token
+    authenticate_with_http_token do |token, options|
+      User.where(auth_token: token).where("token_created_at >= ?", 1.day.ago).first
     end
   end
 end

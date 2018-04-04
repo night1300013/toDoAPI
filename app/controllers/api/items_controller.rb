@@ -1,5 +1,4 @@
 class Api::ItemsController < ApiController
-  before_action :authenticated?
 
   def create
     list = List.find(params[:list_id])
