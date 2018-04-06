@@ -1,6 +1,6 @@
 class Api::SessionsController < ApiController
-  skip_before_action :require_login!, only: [:create]
-
+  #skip_before_action :require_login!, only: [:create]
+  before_action :require_login!, except: [:create]
   def create
     resource = User.find_for_database_authentication(:email => params[:user_login][:email])
     resource ||= User.new

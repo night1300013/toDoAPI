@@ -3,7 +3,7 @@ class ApiController < ApplicationController
   include ActionController::Helpers
   include ActionController::HttpAuthentication::Token::ControllerMethods
   #before_action :authenticated?
-  before_action :require_login!
+  
   helper_method :user_signed_in?, :current_user
 
   def require_login!

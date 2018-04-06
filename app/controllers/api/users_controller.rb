@@ -1,6 +1,6 @@
 class Api::UsersController < ApiController
-  before_action :authenticated?, except: [:create]
-
+  #before_action :authenticated?, except: [:create]
+  before_action :require_login!, except: [:create]
   def index
     users = User.all
     render json: users, each_serializer: UserSerializer
@@ -12,6 +12,17 @@ class Api::UsersController < ApiController
       render json: user
     else
       render json: { errors: user.errors.full_messages}, status: :unprocessable_entry
+    end
+  end
+
+  def destroy
+    begin
+      session[:user_id] = nil
+      user = User.find(params[:id])
+      user.destroy
+      render json: {}, status: :no_content
+    rescue ActiveRecord::RecordNotFound
+      render :json => {}, :status => :not_found
     end
   end
 

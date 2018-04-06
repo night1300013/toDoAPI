@@ -1,5 +1,6 @@
 class Api::ItemsController < ApiController
-
+  before_action :require_login!
+  
   def create
     list = List.find(params[:list_id])
     item = list.items.build(item_params)
