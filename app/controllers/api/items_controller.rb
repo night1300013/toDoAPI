@@ -13,6 +13,6 @@ class Api::ItemsController < ApiController
 
   private
   def item_params
-    params.require(:item).permit(:body, :list_id)
+    params.require(:item).permit(:body)
   end
 end
