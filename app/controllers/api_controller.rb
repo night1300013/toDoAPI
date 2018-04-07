@@ -1,9 +1,8 @@
 class ApiController < ApplicationController
-  #skip_before_action :verify_authenticity_token#, raise: false
+  #skip_before_action :verify_authenticity_token
   include ActionController::Helpers
   include ActionController::HttpAuthentication::Token::ControllerMethods
-  #before_action :authenticated?
-  
+
   helper_method :user_signed_in?, :current_user
 
   def require_login!
@@ -26,10 +25,8 @@ class ApiController < ApplicationController
       if resource&.valid_password?(password)
         sign_in :user, resource
       else
-        #head :unauthorized, :status => :bad_request
         render json: "username or password not correct!\n", status: 401
       end
-      #User.where( email: email, password_digest: password).present? }
     end
   end
 
