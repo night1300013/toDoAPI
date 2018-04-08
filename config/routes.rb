@@ -7,16 +7,16 @@ Rails.application.routes.draw do
       delete "/sign-out" => "sessions#destroy"
     end
 
-    resources :users do
-      resources :lists, only: [:create, :update, :destroy]
+    resources :users, only: [:index, :create, :update, :destroy] do
+      resources :lists, only: [:update, :destroy]
     end
 
-    resources :lists, only: [:index]
+    resources :lists, only: [:index, :create]
 
     resources :lists, only: [] do
-      resources :items, only: [:create, :update]
+      resources :items, only: [:create, :update, :destroy]
     end
 
-    resources :items, only: [:destroy, :index]
+    resources :items, only: [:index]
   end
 end
