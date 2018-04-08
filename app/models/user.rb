@@ -7,7 +7,10 @@ class User < ApplicationRecord
   validates :password, :password_confirmation, presence: true
 
   def generate_auth_token
-    token = SecureRandom.hex
+    token = loop do
+      random_token = SecureRandom.hex
+      break random_token unless User.exists?(auth_token: random_token)
+    end
     self.update_columns(auth_token: token, token_created_at: Time.zone.now)
     token
   end

@@ -1,8 +1,8 @@
 class Api::SessionsController < ApiController
   before_action :require_login!, except: [:create]
-  
+
   def create
-    resource = User.find_for_database_authentication(:email => params[:user_login][:email])
+    resource = User.find_for_database_authentication(email: params[:user_login][:email])
     resource ||= User.new
 
     if resource.valid_password?(params[:user_login][:password])
