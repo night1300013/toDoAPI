@@ -1,6 +1,11 @@
 class Api::ItemsController < ApiController
   before_action :require_login!
 
+  def index
+    items = Item.all
+    render json: items, each_serializer: ItemSerializer
+  end
+
   def create
     list = List.find(params[:list_id])
     item = list.items.build(item_params)

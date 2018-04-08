@@ -1,6 +1,11 @@
 class Api::ListsController < ApiController
   before_action :require_login!
 
+  def index
+    lists = List.all
+    render json: lists, each_serializer: ListSerializer
+  end
+
   def create
     #current user should be the one that creates the list not the url's user
     list = current_user.lists.build(list_params)

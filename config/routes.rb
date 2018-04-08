@@ -8,13 +8,15 @@ Rails.application.routes.draw do
     end
 
     resources :users do
-      resources :lists
+      resources :lists, only: [:create, :update, :destroy]
     end
+
+    resources :lists, only: [:index]
 
     resources :lists, only: [] do
       resources :items, only: [:create, :update]
     end
 
-    resources :items, only: [:destroy]
+    resources :items, only: [:destroy, :index]
   end
 end
