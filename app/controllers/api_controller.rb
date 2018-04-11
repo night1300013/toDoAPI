@@ -32,6 +32,7 @@ class ApiController < ApplicationController
 
   def authenticate_token
     authenticate_with_http_token do |token, options|
+#      binding.pry
       User.where(auth_token: token).where("token_created_at >= ?", 1.day.ago).first
     end
   end

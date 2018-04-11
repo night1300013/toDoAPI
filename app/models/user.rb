@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   has_many :lists, dependent: :destroy
-  validates :password, :password_confirmation, presence: true
 
   def generate_auth_token
     token = loop do
